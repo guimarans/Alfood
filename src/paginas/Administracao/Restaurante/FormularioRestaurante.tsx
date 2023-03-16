@@ -1,5 +1,5 @@
 import { Alert, Box, Button, TextField, Typography } from '@mui/material';
-import axios from 'axios';
+import http from '../../../http';
 import IRestaurante from 'interfaces/IRestaurante';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
@@ -11,7 +11,7 @@ export default function FormularioRestaurante() {
 
   useEffect(() => {
     if (parametros.id) {
-      axios.get<IRestaurante>(`http://localhost:8000/api/v2/restaurantes/${parametros.id}/`)
+      http.get<IRestaurante>(`restaurantes/${parametros.id}/`)
         .then(resposta => setNomeRestaurante(resposta.data.nome))
     }
   }, [parametros]);
@@ -21,7 +21,7 @@ export default function FormularioRestaurante() {
 
 
     if (parametros.id) {
-      axios.put<IRestaurante>(`http://localhost:8000/api/v2/restaurantes/${parametros.id}/`, {
+      http.put<IRestaurante>(`restaurantes/${parametros.id}/`, {
         nome: nomeRestaurante
       })
         .then(() => (
@@ -30,7 +30,7 @@ export default function FormularioRestaurante() {
           </Alert>
         ))
     } else {
-      axios.post('http://localhost:8000/api/v2/restaurantes/', {
+      http.post('restaurantes/', {
         nome: nomeRestaurante
       })
         .then(() => (
