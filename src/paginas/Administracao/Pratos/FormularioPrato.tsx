@@ -1,11 +1,15 @@
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import http from '../../../http';
-import IPrato from 'interfaces/IPrato';
 import { useEffect, useState } from 'react';
 import ITag from 'interfaces/ITag';
 import IRestaurante from 'interfaces/IRestaurante';
+import { useNavigate, useParams } from 'react-router-dom';
+import IPrato from 'interfaces/IPrato';
+import { Method } from 'axios';
 
 export default function FormularioPrato() {
+  const params = useParams();
+  const navigate = useNavigate();
 
   const [nomePrato, setNomePrato] = useState('');
   const [descricao, setDescricao] = useState('');
@@ -26,7 +30,24 @@ export default function FormularioPrato() {
     http.get<IRestaurante[]>('restaurantes/')
       .then(resposta => setRestaurantes(resposta.data))
       .catch(erro => console.error(erro))
-  }, []);
+
+    if(params.id) {
+      http.get<IPrato>(`/pratos/${params.id}/`)
+        .then(resposta => {
+          setNomePrato(resposta.data.nome)
+          setDescricao(resposta.data.descricao)
+          setTag(resposta.data.tag)
+          restaurantes.find( restaurante => {
+            if(Number(restaurante.id) === resposta.data.restaurante) {
+              setRestaurante(restaurante.nome)
+            }
+          });
+
+          console.log('API: ' + resposta.data.restaurante)
+        })
+    }
+    
+  }, [params]);
 
   function selecionarArquivo(evento: React.ChangeEvent<HTMLInputElement>) {
     if (evento.target.files?.length) {
@@ -38,6 +59,38 @@ export default function FormularioPrato() {
 
   function aoSubmeterForm(evento: React.FormEvent<HTMLFormElement>) {
     evento.preventDefault();
+    
+    const formData = new FormData();
+
+    formData.append('nome', nomePrato);
+    formData.append('descricao', descricao);
+    formData.append('tag', tag);
+    formData.append('restaurante', restaurante);
+    if (imagem) {
+      formData.append('imagem', imagem);
+    }
+
+    let url = '/pratos/';
+    let method: Method = 'POST';
+    
+    if(params.id) {
+      method = 'PUT'
+      url += `${params.id}/`
+    }
+
+    http.request({
+      url,
+      method,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      data: formData
+    })
+      .then(() => {
+        alert('Cadastrado com sucesso!');
+        navigate('/admin/pratos/');
+      })
+      .catch(erro => console.error(erro))
   }
 
   return (
@@ -73,7 +126,7 @@ export default function FormularioPrato() {
             required
           >
             {tags.map(tag => (
-              <MenuItem key={tag.id} value={tag.id}> {tag.value} </MenuItem>
+              <MenuItem key={tag.id} value={tag.value}> {tag.value} </MenuItem>
             ))}
           </Select>
         </FormControl>
