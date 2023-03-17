@@ -1,8 +1,9 @@
-import { Alert, Box, Button, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, TextField, Typography, AppBar, Container, Toolbar, Link, Paper } from '@mui/material';
 import http from '../../../http';
 import IRestaurante from 'interfaces/IRestaurante';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import { Link as RouterLink } from 'react-router-dom'
 
 export default function FormularioRestaurante() {
 
@@ -42,25 +43,46 @@ export default function FormularioRestaurante() {
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center'
-      }}
-    >
-      <Typography component="h1" variant="h6">Formulario de Restaurantes</Typography>
-      <Box component="form" sx={{marginTop: 2}} onSubmit={aoSubmeterForm}>
-        <TextField
-          value={nomeRestaurante}
-          onChange={evento => setNomeRestaurante(evento.target.value)}
-          id="standard-basic"
-          label="Nome do restaurante"
-          variant="standard"
-          fullWidth
-          required />
-        <Button type="submit" sx={{marginTop: 1}} variant="outlined" fullWidth>Salvar</Button>
+    <>
+      <AppBar position="static">
+        <Container maxWidth="xl">
+          <Toolbar>
+            <Typography variant="h6"> Administracao </Typography>
+            <Box sx={{ display: 'flex', flexGrow: 1 }}>
+              <Link component={RouterLink} to="/admin/restaurantes">
+                <Button sx={{ my: 2, color: 'white' }}> Restaurantes </Button>
+              </Link>
+              <Link component={RouterLink} to="/admin/restaurantes/novo">
+                <Button sx={{ my: 2, color: 'white' }}> Novo restaurantes </Button>
+              </Link>
+            </Box>
+          </Toolbar>
+
+        </Container>
+      </AppBar>
+
+      <Box>
+        <Container maxWidth="lg" sx={{ mt: 1 }}>
+          <Paper sx={{ p: 2 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1 }} >
+              <Typography component="h1" variant="h6">Formulario de Restaurantes</Typography>
+              <Box component="form" sx={{width: '100%'}} onSubmit={aoSubmeterForm}>
+                <TextField
+                  value={nomeRestaurante}
+                  onChange={evento => setNomeRestaurante(evento.target.value)}
+                  id="standard-basic"
+                  label="Nome do restaurante"
+                  variant="standard"
+                  fullWidth
+                  required />
+                <Button type="submit" sx={{ mt: 1 }} variant="outlined" fullWidth>Salvar</Button>
+              </Box>
+            </Box>
+          </Paper>
+        </Container>
       </Box>
-    </Box>
+
+
+    </>
   )
 }
