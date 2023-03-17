@@ -43,46 +43,19 @@ export default function FormularioRestaurante() {
   }
 
   return (
-    <>
-      <AppBar position="static">
-        <Container maxWidth="xl">
-          <Toolbar>
-            <Typography variant="h6"> Administracao </Typography>
-            <Box sx={{ display: 'flex', flexGrow: 1 }}>
-              <Link component={RouterLink} to="/admin/restaurantes">
-                <Button sx={{ my: 2, color: 'white' }}> Restaurantes </Button>
-              </Link>
-              <Link component={RouterLink} to="/admin/restaurantes/novo">
-                <Button sx={{ my: 2, color: 'white' }}> Novo restaurantes </Button>
-              </Link>
-            </Box>
-          </Toolbar>
-
-        </Container>
-      </AppBar>
-
-      <Box>
-        <Container maxWidth="lg" sx={{ mt: 1 }}>
-          <Paper sx={{ p: 2 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1 }} >
-              <Typography component="h1" variant="h6">Formulario de Restaurantes</Typography>
-              <Box component="form" sx={{width: '100%'}} onSubmit={aoSubmeterForm}>
-                <TextField
-                  value={nomeRestaurante}
-                  onChange={evento => setNomeRestaurante(evento.target.value)}
-                  id="standard-basic"
-                  label="Nome do restaurante"
-                  variant="standard"
-                  fullWidth
-                  required />
-                <Button type="submit" sx={{ mt: 1 }} variant="outlined" fullWidth>Salvar</Button>
-              </Box>
-            </Box>
-          </Paper>
-        </Container>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1 }} >
+      <Typography component="h1" variant="h6">Formulario de Restaurantes</Typography>
+      <Box component="form" sx={{ width: '100%' }} onSubmit={aoSubmeterForm}>
+        <TextField
+          value={nomeRestaurante}
+          onChange={evento => setNomeRestaurante(evento.target.value)}
+          id="standard-basic"
+          label="Nome do restaurante"
+          variant="standard"
+          fullWidth
+          required />
+        <Button type="submit" sx={{ mt: 1 }} variant="outlined" fullWidth>Salvar</Button>
       </Box>
-
-
-    </>
+    </Box>
   )
 }
