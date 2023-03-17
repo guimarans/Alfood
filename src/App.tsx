@@ -1,4 +1,5 @@
 import PaginaBaseAdmin from 'paginas/Administracao/PaginaBaseAdmin';
+import AdministracaoPratos from 'paginas/Administracao/Pratos/AdministracaoPratos';
 import AdministracaoRestaurantes from 'paginas/Administracao/Restaurante/AdministracaoRestaurante';
 import FormularioRestaurante from 'paginas/Administracao/Restaurante/FormularioRestaurante';
 import { Routes, Route } from 'react-router-dom';
@@ -16,6 +17,8 @@ function App() {
         <Route path="restaurantes" element={<AdministracaoRestaurantes />} />
         <Route path="restaurantes/novo" element={<FormularioRestaurante />} />
         <Route path="restaurantes/:id" element={<FormularioRestaurante />} />
+
+        <Route path="pratos" element={<AdministracaoPratos />} />
       </Route>
     </Routes>
   );
